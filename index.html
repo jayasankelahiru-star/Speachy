@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SpeakUp – Presentation Coach</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1c1f2a;--mu:#6b7186;--pr:#5b4bff;--ok:#1fa971;--wa:#e8590c;--bd:#e4e6ef;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12131a;--card:#1c1e29;--tx:#eceef6;--mu:#9a9fb5;--bd:#2c2f3e;--pr:#8579ff}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Noto Sans Sinhala",sans-serif;background:var(--bg);color:var(--tx);padding-bottom:80px}
+main{max-width:560px;margin:auto;padding:16px}
+h1{font-size:22px;margin:4px 0 12px}h2{font-size:17px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px;overflow:hidden}
+.mu{color:var(--mu);font-size:14px}
+button{font:inherit;border:0;border-radius:12px;padding:12px 16px;background:var(--pr);color:#fff;font-weight:600;cursor:pointer}
+button.sec{background:transparent;color:var(--pr);border:1.5px solid var(--pr)}
+button:disabled{opacity:.5}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;color:var(--mu);border-radius:0;padding:10px 2px;font-size:11px}
+nav button.on{color:var(--pr)}nav button span{display:block;font-size:20px}
+.lesson{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;border:1px solid var(--bd);margin-bottom:8px;background:var(--card);cursor:pointer}
+.lesson.lock{opacity:.45;cursor:default}
+.dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--pr);color:#fff;font-weight:700;flex:none}
+.dot.done{background:var(--ok)}.dot.lock{background:var(--mu)}
+textarea,select,input[type=text],input[type=password],input:not([type]){width:100%;font:inherit;padding:10px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+textarea{min-height:120px}
+video{width:100%;border-radius:14px;background:#000;max-height:48vh;margin-bottom:8px}
+.rec{width:84px;height:84px;border-radius:50%;font-size:30px;display:block;margin:10px auto}
+.rec.live{background:#e03131;animation:p 1s infinite}
+@keyframes p{50%{transform:scale(1.08)}}
+.big{font-size:44px;font-weight:800;text-align:center}
+.bar{height:8px;border-radius:6px;background:var(--bd);overflow:hidden;margin:4px 0 10px}.bar i{display:block;height:100%;background:var(--pr)}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1}
+.chip{display:inline-block;padding:2px 8px;border-radius:8px;background:var(--bd);font-size:13px;margin:2px}
+mark{background:#ffd43b66;color:inherit;border-radius:4px}
+ul{padding-left:20px;margin:6px 0}
+.stat{text-align:center;min-width:90px}.stat b{font-size:22px;display:block}
+.th{display:flex;gap:6px;overflow-x:auto;margin:8px 0}.th img{height:70px;border-radius:8px}
+#fab{position:fixed;right:16px;bottom:calc(72px + env(safe-area-inset-bottom,0px));width:62px;height:62px;border-radius:50%;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;line-height:1.1;box-shadow:0 4px 14px rgba(0,0,0,.35);z-index:20}
+#fab small{font-size:11px;font-weight:800;letter-spacing:.5px}
+</style></head><body>
+<main id="app"></main><button id="fab" onclick="nav('practice')" aria-label="Quick practice with AI">✨<small>AI</small></button><nav id="nav"></nav>
+<script>
+const LV=[
+{n:"Level 1 · Foundations",c:"#5b4bff",ls:[
+{id:"1a",t:"Introduce yourself",tip:"Breathe, slow down, look at the camera.",task:"Introduce yourself in 30–60 seconds: name, what you do, one interesting fact.",min:20},
+{id:"1b",t:"Cut the filler words",tip:"Replace “um” and “like” with a silent pause.",task:"Describe your favorite place for 45 seconds without filler words.",min:25},
+{id:"1c",t:"Pace and volume",tip:"Pause after key points. Emphasize important words.",task:"Explain how to make a cup of tea, with deliberate pauses (about 45 seconds).",min:25},
+{id:"1d",t:"Eye contact",tip:"Look at the camera lens, not at the screen.",task:"Talk about your day for 45 seconds, looking at the camera lens as much as you can.",min:30},
+{id:"1e",t:"Warm and friendly tone",tip:"A small smile makes your voice sound warmer.",task:"Welcome an audience to an event in about 30 seconds, sounding warm and friendly.",min:30},
+{id:"1f",t:"Confident posture",tip:"Sit or stand tall, shoulders relaxed, hands visible.",task:"Introduce a friend or someone you admire in 45 seconds with open posture and relaxed hands.",min:30},
+{id:"1g",t:"Speak with energy",tip:"Vary your pitch on key words to avoid a flat voice.",task:"Describe your favorite movie, game or hobby for 45 seconds with real energy in your voice.",min:35},
+{id:"1h",t:"One clear message",tip:"Pick one main idea and repeat it once at the end.",task:"Explain one idea you care about in 1 minute, ending with a one-sentence takeaway.",min:35}]},
+{n:"Level 2 · Structure & Delivery",c:"#e8590c",ls:[
+{id:"2a",t:"Strong opening",tip:"Open with a question, a story or a surprising fact.",task:"Give a 1–2 minute talk on a topic you love. Start with a strong hook.",min:50},
+{id:"2b",t:"Tell a story",tip:"Situation → problem → turning point → lesson.",task:"Tell a 2-minute story about a challenge you overcame and what you learned.",min:60},
+{id:"2c",t:"Intro, body, conclusion",tip:"Tell them what you will say, say it, then recap.",task:"Give a 2-minute talk with 3 clear points on why people should learn a new skill.",min:70},
+{id:"2d",t:"Use examples",tip:"Every point needs an example or a number.",task:"Give a 2-minute talk on why exercise matters, backing each point with an example.",min:65},
+{id:"2e",t:"Smooth transitions",tip:"Signal your moves: first, next, finally.",task:"Explain how to prepare for an exam in 2 minutes, using clear transitions between steps.",min:65},
+{id:"2f",t:"Strong closing",tip:"End with a summary and a clear call to action.",task:"Give a 2-minute talk on any subject and finish with a memorable closing line.",min:70},
+{id:"2g",t:"Explain it simply",tip:"Avoid jargon. Explain as if to a 12-year-old.",task:"Explain something technical you know (an app, a machine, a school subject) in simple words, for 2 minutes.",min:70},
+{id:"2h",t:"Gestures and stance",tip:"Use open hand gestures at natural moments. Avoid fidgeting.",task:"Give a 2-minute talk about a place you would recommend, using natural hand gestures and a steady stance.",min:70}]},
+{n:"Level 3 · Mastery",c:"#1fa971",ls:[
+{id:"3a",t:"Persuade",tip:"Claim, evidence, emotional appeal, call to action.",task:"Persuade your audience to adopt one good habit, with evidence and a call to action (2–3 minutes).",min:80},
+{id:"3b",t:"Pitch your idea",tip:"Problem, solution, market, ask.",task:"Pitch a product or business idea to investors in 3 minutes.",min:80},
+{id:"3c",t:"Full presentation",tip:"Combine everything: hook, structure, evidence, close.",task:"Deliver a full 4–5 minute presentation on any topic, as if on stage.",min:85},
+{id:"3d",t:"Handle tough questions",tip:"Pause, restate the question, answer, then stop.",task:"Imagine a skeptic asks, “Why should I trust your idea?” Answer in about 90 seconds.",min:80},
+{id:"3e",t:"Tell me about yourself",tip:"Past, present, future in under 2 minutes.",task:"Answer “Tell me about yourself” as if in a job interview, in about 2 minutes.",min:80},
+{id:"3f",t:"Inspire a crowd",tip:"Speak slowly, use pauses, paint a vivid picture.",task:"Give an inspiring 3-minute speech to a large audience about a goal worth chasing.",min:85},
+{id:"3g",t:"Present the data",tip:"State the insight first, then the evidence.",task:"Present three numbers or facts about any topic (3 minutes) and explain what they mean.",min:85},
+{id:"3h",t:"Master class",tip:"Own the stage: strong voice, eye contact, steady gestures.",task:"Deliver a polished 5-minute talk on a topic of your choice, combining everything you have learned.",min:90}]}];
+const ALL=LV.flatMap(l=>l.ls);
+const FILL=["um","uh","uhh","umm","like","you know","basically","actually","literally","i mean","kind of","sort of"];
+let S={xp:0,streak:0,last:"",done:{},hist:[],name:"",ai:"en",sl:"en-US",key:"",model:"gemini-3.8-flash"};
+try{Object.assign(S,JSON.parse(localStorage.getItem("su")||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem("su",JSON.stringify(S))}catch(e){}};
+let wav=null,openLv=null,tab="learn",mode="quick",qstart=false,cur="1a",cam=true,
+ st=null,mr=null,chunks=[],rec=false,recog=null,tick=null,gf=null,fid=null,ac=null,an=null,secs=0,t0=0,
+ mediaURL="",isVideo=false,live={rms:[],f0:[]},frames=[],aud=null,TX="",busy=false,err="",note="",view=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+const unlocked=i=>i===0||(S.done[ALL[i-1].id]||0)>=ALL[i-1].min;
+const lvl=()=>Math.floor(S.xp/100)+1;
+function go(t){if(rec)return;tab=t;draw()}
+function draw(){
+ const T=[["learn","🎓","Learn"],["feedback","📊","Feedback"],["progress","🔥","Progress"],["profile","👤","Profile"]];
+ $("#nav").innerHTML=T.map(x=>`<button class="${(tab=="practice"?(mode=="lesson"?"learn":""):tab)==x[0]?"on":""}" onclick="nav('${x[0]}')"><span>${x[1]}</span>${x[2]}</button>`).join("");
+ $("#app").innerHTML=({learn,practice,feedback,progress,profile})[tab]();$("#fab").style.display=tab=="practice"?"none":"flex";
+ const pv=$("#pv");if(pv&&st){pv.srcObject=st;pv.play().catch(()=>{})}
+}
+/* ---------- Learn ---------- */
+function learn(){
+ const pass=x=>(S.done[x.id]||0)>=x.min;
+ if(openLv==null){
+  let h=`<h1>Learn</h1><div class="mu" style="margin-bottom:10px">Pick a level. Reach each target score to unlock the next task.</div>`;
+  LV.forEach((l,li)=>{const n=l.ls.length,p=l.ls.filter(pass).length,lock=!unlocked(ALL.findIndex(a=>a.id==l.ls[0].id));
+   h+=`<div class="card" style="${lock?"opacity:.5":"cursor:pointer"}" ${lock?"":`onclick="openLv=${li};draw()"`}><div class="row" style="justify-content:space-between"><b style="color:${l.c};flex:none">${l.n}${lock?" 🔒":""}</b><span class="mu" style="flex:none">${p}/${n} done</span></div><div class="bar"><i style="width:${100*p/n}%;background:${l.c}"></i></div><div class="mu">${lock?"Finish the previous level to unlock":p==n?"Completed ✓":"Tap to open"}</div></div>`});
+  return h}
+ const l=LV[openLv];
+ let h=`<button class="sec" onclick="openLv=null;draw()">← All levels</button><h2 style="color:${l.c}">${l.n}</h2>`;
+ l.ls.forEach((x,j)=>{const i=ALL.findIndex(a=>a.id==x.id),u=unlocked(i),d=pass(x),b=S.done[x.id];
+  h+=`<div class="lesson ${u?"":"lock"}" ${u?`onclick="pick('${x.id}')"`:""}><div class="dot ${d?"done":u?"":"lock"}">${d?"✓":u?j+1:"🔒"}</div><div><b>${x.t}</b><div class="mu">Target ${x.min}+${b!=null?" · best "+b:""}</div></div></div>`});
+ return h}
+function pick(id){cur=id;mode="lesson";resetRec();go("practice")}
+/* ---------- Practice ---------- */
+function resetRec(){if(mediaURL)URL.revokeObjectURL(mediaURL);mediaURL="";TX="";frames=[];live={rms:[],f0:[]};aud=null;wav=null;secs=0;note="";err="";isVideo=false}
+function exitLesson(){if(rec)return;mode="quick";qstart=false;resetRec();draw()}
+function nav(t){if(rec)return;if(t=="practice"&&tab!="practice"){mode="quick";qstart=false;resetRec()}go(t)}
+function practice(){
+ if(mode=="quick"&&!qstart)return `<h1>Quick practice</h1><div class="card"><div style="font-size:44px;text-align:center">🎥</div><p>Record a video of yourself speaking, or upload one, and get one-time feedback on your voice, tone, eye contact and body language.</p><p class="mu">Quick practice isn’t counted in your XP, streak or progress.</p>${S.key?"":`<p style="color:var(--wa)">⚠ Add your free Gemini API key in the Profile tab first.</p>`}<button style="width:100%" onclick="qstart=true;draw()">Start quick practice</button></div>`;
+ const x=ALL.find(a=>a.id==cur);
+ const top=mode=="lesson"?`<h1>Lesson</h1><div class="card"><b>${x.title}</b><p class="mu">💡 ${x.tip}</p><p>${x.task}</p><button class="sec" ${rec?"disabled":""} onclick="exitLesson()">Exit lesson</button></div>`
+ :`<h1>Quick practice</h1><div class="mu" style="margin-bottom:10px">One-time feedback · not counted in your progress</div>`;
+ const media=`<div class="card">
+ <div class="mu">🎥 Video is always recorded, so your eye contact and body language can be evaluated. Keep your face and hands in frame.</div>
+ <div style="margin-top:10px">${rec&&isVideo?`<video id="pv" autoplay muted playsinline style="transform:scaleX(-1)"></video>`:""}${!rec&&mediaURL?(isVideo?`<video controls playsinline src="${mediaURL}"></video>`:`<audio controls src="${mediaURL}" style="width:100%"></audio>`):""}</div>
+ <button class="rec ${rec?"live":""}" onclick="rec?stopRec():startRec()">${rec?"■":"●"}</button>
+ <div class="big" id="tm">${fmt(secs)}</div><div class="mu" style="text-align:center">${rec?"Recording… tap ■ to finish. You’ll get feedback after you stop.":"Tap ● to record"}</div>
+ <div style="text-align:center;margin-top:10px"><button class="sec" ${rec?"disabled":""} onclick="$('#fl').click()">⬆ Upload a video</button></div>
+ <input type="file" id="fl" accept="video/*" hidden onchange="upFile(this)"></div>`;
+ return `${top}${media}
+ ${note?`<div class="card mu">${esc(note)}</div>`:""}
+ ${err?`<div class="card" style="border-color:var(--wa)">${esc(err)}</div>`:""}
+ <button style="width:100%" onclick="evaluate()" ${busy||rec?"disabled":""}>${busy?"Analyzing your speech…":"Evaluate my speech"}</button>`}
+/* ---------- audio analysis ---------- */
+const rmsOf=b=>{let s=0;for(let i=0;i<b.length;i++)s+=b[i]*b[i];return Math.sqrt(s/b.length)};
+function pitch(b,sr){
+ const d=Math.max(1,Math.floor(sr/11025)),n=Math.floor(b.length/d),x=new Float32Array(n);for(let i=0;i<n;i++)x[i]=b[i*d];
+ const f=sr/d,lo=Math.floor(f/400),hi=Math.min(Math.floor(f/75),n-2);let best=0,bl=0;
+ for(let l=lo;l<=hi;l++){let s=0,a=0,c=0;for(let i=0;i<n-l;i++){s+=x[i]*x[i+l];a+=x[i]*x[i];c+=x[i+l]*x[i+l]}const r=s/Math.sqrt(a*c+1e-9);if(r>best){best=r;bl=l}}
+ return best>0.6&&bl?f/bl:0}
+function summ(rms,f0){
+ if(rms.length<30)return null;
+ const so=[...rms].sort((a,b)=>a-b),p75=so[Math.floor(so.length*.75)],thr=Math.max(.008,.2*p75);
+ let a=0,b=rms.length-1;while(a<b&&rms[a]<thr)a++;while(b>a&&rms[b]<thr)b--;
+ const seg=rms.slice(a,b+1),v=seg.filter(x=>x>=thr);if(v.length<10)return null;
+ let long=0,run=0;seg.forEach(x=>{if(x<thr)run++;else{if(run>=10)long++;run=0}});
+ const db=v.map(x=>20*Math.log10(x)),m=db.reduce((s,x)=>s+x,0)/db.length,sd=Math.sqrt(db.reduce((s,x)=>s+(x-m)**2,0)/db.length);
+ const p=f0.slice(a,b+1).filter(x=>x>0),pm=p.reduce((s,x)=>s+x,0)/(p.length||1);
+ const ps=p.length>=15?Math.sqrt(p.map(x=>12*Math.log2(x/pm)).reduce((s,x)=>s+x*x,0)/p.length):null;
+ return{span:Math.round(seg.length/10),speak:Math.round(v.length/10),silentPct:Math.round(100*(1-v.length/seg.length)),long,volSd:+sd.toFixed(1),pitch:ps==null?0:Math.round(pm),pitchSd:ps==null?null:+ps.toFixed(1)}}
+async function frameBlob(v){const c=document.createElement("canvas");c.width=384;c.height=Math.round(384*v.videoHeight/v.videoWidth);c.getContext("2d").drawImage(v,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",.6))}
+function grab(){const v=$("#pv");if(!v||!v.videoWidth)return;frameBlob(v).then(b=>b&&frames.push(b))}
+/* ---------- recording ---------- */
+const b64=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(String(f.result).split(",")[1]);f.readAsDataURL(b)});
+function toWav(d,sr,lim){const o=16000,n=Math.floor(lim*o),buf=new ArrayBuffer(44+n*2),v=new DataView(buf),W=(p,t)=>{for(let i=0;i<t.length;i++)v.setUint8(p+i,t.charCodeAt(i))};
+ W(0,"RIFF");v.setUint32(4,36+n*2,true);W(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,o,true);v.setUint32(28,o*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);W(36,"data");v.setUint32(40,n*2,true);
+ const k=sr/o;for(let i=0;i<n;i++){const a=Math.floor(i*k),e=Math.min(d.length,Math.floor((i+1)*k));let t=0;for(let j=a;j<e;j++)t+=d[j];const x=Math.max(-1,Math.min(1,t/Math.max(1,e-a)));v.setInt16(44+i*2,x<0?x*32768:x*32767,true)}
+ return new Blob([buf],{type:"audio/wav"})}
+async function startRec(){
+ err="";note="";
+ try{st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:{facingMode:"user",width:{ideal:640},height:{ideal:480}}})}catch(e){st=null}
+ if(!st||!st.getVideoTracks().length){if(st){st.getTracks().forEach(t=>t.stop());st=null}err="Camera and microphone permission is needed to record video. Allow both in Settings, or upload a video instead.";draw();return}
+ isVideo=true;chunks=[];frames=[];aud=null;wav=null;
+ if(mediaURL){URL.revokeObjectURL(mediaURL);mediaURL=""}
+ try{mr=new MediaRecorder(st,{videoBitsPerSecond:700000,audioBitsPerSecond:64000})}catch(e){mr=new MediaRecorder(st)}
+ mr.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+ mr.onstop=async()=>{const b=new Blob(chunks,{type:mr.mimeType});mediaURL=URL.createObjectURL(b);note="Preparing your recording…";draw();await ingest(b,false)};
+ mr.start(1000);
+ rec=true;secs=0;t0=Date.now();tick=setInterval(()=>{secs=Math.floor((Date.now()-t0)/1000);const e=$("#tm");if(e)e.textContent=fmt(secs)},500);
+ draw();setTimeout(grab,800);gf=setInterval(grab,3000)}
+function stopRec(){
+ rec=false;[tick,gf].forEach(clearInterval);
+ if(st){st.getTracks().forEach(t=>t.stop());st=null}
+ if(mr&&mr.state!="inactive")mr.stop();else draw()}
+async function ingest(b,up){
+ aud=null;wav=null;let over=false;
+ try{const c=new(window.AudioContext||window.webkitAudioContext)(),ab=await c.decodeAudioData(await b.arrayBuffer()),sr=ab.sampleRate,d=ab.getChannelData(0),rms=[],f0=[],lim=Math.min(ab.duration,300);over=ab.duration>300;
+  for(let t=0;t<lim-.1;t+=.1){const w=d.subarray(Math.floor(t*sr),Math.floor(t*sr)+2048),r=rmsOf(w);rms.push(r);f0.push(r>.01?pitch(w,sr):0)}
+  aud=summ(rms,f0);secs=Math.round(ab.duration);wav=toWav(d,sr,lim);c.close()}catch(e){}
+ if(up){try{const v=document.createElement("video");v.muted=true;v.playsInline=true;v.src=mediaURL;
+  await new Promise((r,j)=>{v.onloadedmetadata=r;v.onerror=j});if(!secs)secs=Math.round(v.duration);
+  for(let k=0;k<6;k++){v.currentTime=Math.max(.1,(k+.5)*v.duration/6);await new Promise(r=>v.onseeked=r);frames.push(await frameBlob(v))}}catch(e){}}
+ note=wav?`Ready · ${fmt(secs)}${frames.length?" · "+frames.length+" video frames captured":""}${over?" · only the first 5 minutes will be analyzed":""}. Tap Evaluate.`:"Couldn’t read the audio of this video. Please try another recording.";draw()}
+async function upFile(i){
+ const f=i.files[0];if(!f)return;
+ if(f.size>150e6){err="That video is too large (over 150 MB). Choose a shorter one.";draw();return}
+ if(mediaURL)URL.revokeObjectURL(mediaURL);
+ mediaURL=URL.createObjectURL(f);isVideo=true;frames=[];aud=null;wav=null;secs=0;err="";note="Preparing your video…";draw();await ingest(f,true)}
+/* ---------- evaluation ---------- */
+function fillers(t){const f={};let tot=0;const l=t.toLowerCase();FILL.forEach(k=>{const m=(l.match(new RegExp("\\b"+k+"\\b","g"))||[]).length;if(m){f[k]=m;tot+=m}});return{f,tot}}
+async function askAI(parts){
+ const m=S.model||"gemini-3.8-flash";
+ const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`,{method:"POST",headers:{"content-type":"application/json","x-goog-api-key":S.key},body:JSON.stringify({contents:[{parts}],generationConfig:{responseMimeType:"application/json",temperature:.4}})});
+ const txt=await res.text();
+ if(!res.ok)throw{message:"AI error "+res.status+": "+txt.slice(0,200)};
+ const j=JSON.parse(txt),o=(j.candidates?.[0]?.content?.parts||[]).map(p=>p.text||"").join("");
+ return JSON.parse(o.slice(o.indexOf("{"),o.lastIndexOf("}")+1))}
+async function evaluate(){
+ if(!S.key){err="Add your free Gemini API key in the Profile tab first.";draw();return}
+ if(!wav){err="Record a video (at least 10 seconds) or upload one first.";draw();return}
+ busy=true;err="";draw();
+ try{
+  const A=aud,dur=secs||(A?A.span:0),x=ALL.find(a=>a.id==cur);
+  let imgs=[];if(frames.length){const n=Math.min(6,frames.length);imgs=Array.from({length:n},(_,i)=>frames[Math.floor(i*frames.length/n)])}
+  const ctx=mode=="lesson"?`Lesson: ${x.title}. Task given: ${x.task}. Level ${x.id[0]} of 3 (be stricter at higher levels).`:`Quick practice: the learner gave no topic or brief, so judge the speech on its own merits as a general talk.`;
+  const lang=S.ai=="si"?"Sinhala (සිංහල), keeping quoted phrases in their original language":"English";
+  const voice=A?`total ${A.span}s, speaking ${A.speak}s, silence ${A.silentPct}%, long pauses over 1s: ${A.long}, volume variation ${A.volSd} dB (under 3 = flat), average pitch ${A.pitch||"n/a"} Hz, pitch variation ${A.pitchSd??"n/a"} semitones (under 1.5 = monotone, 2–5 = natural, over 6 = very animated)`:"unavailable";
+  const p=`You are a warm, honest, expert public-speaking coach. A learner recorded a speech.
+${ctx}
+The attached audio is the speech (English or Sinhala). Listen carefully and transcribe it faithfully, keeping filler words such as um, uh, like and you know exactly as spoken.
+Measurements from the audio signal: ${voice}.
+${imgs.length?`Also attached are ${imgs.length} still frames from the video in time order. Judge eye contact (looking at the camera lens), posture, gestures and hand use, facial expression, framing and lighting only from what is actually visible. If the face or hands are not visible, say so instead of guessing. Stills cannot show movement, so note that limit briefly.`:"No video frames were provided: set eye_contact, body_language and expression to null."}
+Evaluate everything yourself: content, structure, language (vocabulary and grammar), voice and tone (energy, warmth, confidence, monotone or animated, from what you hear plus the measurements), pace, pauses, filler words, and body language from the frames. If there is no clear speech, say so in the summary and score low.
+Score honestly (most beginners land 40–75). Write all text values in ${lang}, except the transcript which stays in the spoken language. Return ONLY JSON, no markdown:
+{"transcript":"...","score":0-100,"content":0-100,"structure":0-100,"voice":0-100,"pace":0-100,"eye_contact":0-100|null,"body_language":0-100|null,"expression":0-100|null,"summary":"2 sentences","tone_notes":"2 sentences on tone, energy, pitch, pauses","video_notes":"2 sentences on eye contact and body language, or empty","strengths":["..",".."],"improvements":["..",".."],"suggestions":["3 specific actionable tips"],"drill":"one short drill","better_opening":"a stronger opening line, or empty"}`;
+  const parts=[{text:p},{inline_data:{mime_type:"audio/wav",data:await b64(wav)}}];
+  for(const im of imgs)parts.push({inline_data:{mime_type:"image/jpeg",data:await b64(im)}});
+  const r=await askAI(parts);
+  const t=String(r.transcript||"").trim(),words=t?t.split(/\s+/).length:0,F=fillers(t),wpm=words&&dur>5?Math.round(words/(dur/60)):null;
+  Object.assign(r,{F,A,wpm,words,dur,text:t,thumbs:imgs.map(b=>URL.createObjectURL(b)),lesson:mode=="lesson"?x.title:"Quick practice",lid:mode=="lesson"?x.id:"quick",date:Date.now()});
+  finish(r);
+ }catch(e){err="Evaluation failed: "+(e&&e.message||"try again.")}
+ busy=false;draw()}
+function finish(r){
+ r.score=Math.max(0,Math.min(100,Math.round(+r.score||0)));
+ if(r.lid=="quick"){r.quick=true;r.xp=0;r.pass=null;r.prev=null;view=r;tab="feedback";return}
+ const L=ALL.find(a=>a.id==r.lid),prev=S.hist.filter(h=>h.lid==r.lid).pop();r.prev=prev?prev.score:null;
+ const first=S.done[r.lid]==null;r.pass=r.score>=L.min;r.min=L.min;
+ S.done[r.lid]=Math.max(S.done[r.lid]||0,r.score);
+ r.xp=Math.round(r.score/4)+(r.pass&&first?15:0);S.xp+=r.xp;
+ const d=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();if(S.last!=d){S.streak=S.last==y?S.streak+1:1;S.last=d}
+ S.hist.push({lid:r.lid,lesson:r.lesson,score:r.score,date:r.date,eye:r.eye_contact,vid:!!r.thumbs.length});S.hist=S.hist.slice(-60);save();view=r;tab="feedback"}
+function hl(t,f){let o=esc(t);Object.keys(f).forEach(k=>{o=o.replace(new RegExp("\\b"+k+"\\b","gi"),m=>"<mark>"+m+"</mark>")});return o}
+const bar=(l,v)=>v==null?"":`<div class="row" style="justify-content:space-between"><span>${l}</span><b style="flex:none">${Math.round(v)}</b></div><div class="bar"><i style="width:${Math.max(0,Math.min(100,v))}%"></i></div>`;
+function feedback(){
+ if(!view)return `<h1>Feedback</h1><div class="card mu">No evaluation yet. Do a quick practice or a lesson to see your scores here.</div><button onclick="nav('practice')">Start quick practice</button>`;
+ const r=view,A=r.A,li=a=>(a||[]).map(x=>`<li>${esc(x)}</li>`).join("");
+ const nx=!r.quick?ALL[ALL.findIndex(a=>a.id==r.lid)+1]:null;
+ const pl=A&&A.pitchSd!=null?(A.pitchSd<1.5?"Monotone":A.pitchSd<5?"Natural":"Very animated"):"–";
+ return `<h1>${esc(r.lesson)}</h1>
+ <div class="card"><div class="big" style="color:${r.pass===false?"var(--wa)":"var(--ok)"}">${r.score}<span class="mu" style="font-size:18px">/100</span></div>
+ <div style="text-align:center" class="mu">${r.quick?"Quick practice · one-time feedback, not counted in your progress":`${r.pass===true?"✅ Passed! ":r.pass===false?"Target "+r.min+" to unlock the next lesson. ":""}+${r.xp} XP${r.prev!=null?" · previous attempt "+r.prev+" ("+(r.score>=r.prev?"+":"")+(r.score-r.prev)+")":""}`}</div><p>${esc(r.summary)}</p></div>
+ <div class="card">${bar("Content",r.content)}${bar("Structure",r.structure)}${bar("Voice & tone",r.voice)}${bar("Pace",r.pace)}${bar("Eye contact",r.eye_contact)}${bar("Body language",r.body_language)}${bar("Facial expression",r.expression)}</div>
+ <div class="card"><b>🎙 Voice & delivery</b><div class="row" style="margin:8px 0">
+ <div class="stat"><b>${r.wpm??"–"}</b><span class="mu">words/min</span></div><div class="stat"><b>${r.F.tot}</b><span class="mu">fillers</span></div><div class="stat"><b>${A?A.long:"–"}</b><span class="mu">long pauses</span></div><div class="stat"><b>${pl}</b><span class="mu">pitch</span></div></div>
+ ${A?`<p class="mu">Silence ${A.silentPct}% of the time · volume variation ${A.volSd} dB</p>`:""}
+ ${r.wpm?`<p class="mu">${r.wpm<110?"A bit slow. Aim for 120–150 WPM.":r.wpm>165?"A bit fast. Slow down and pause.":"Good pace (ideal 120–150)."}</p>`:""}
+ <p>${esc(r.tone_notes)}</p></div>
+ ${r.thumbs.length?`<div class="card"><b>🎥 Body language & eye contact</b><div class="th">${r.thumbs.map(u=>`<img src="${u}">`).join("")}</div><p>${esc(r.video_notes)}</p></div>`:""}
+ <div class="card"><b>👍 Strengths</b><ul>${li(r.strengths)}</ul><b>⚠️ To improve</b><ul>${li(r.improvements)}</ul></div>
+ <div class="card"><b>💡 Suggestions</b><ul>${li(r.suggestions)}</ul><b>🏋️ Next drill</b><p>${esc(r.drill)}</p>${r.better_opening?`<b>✨ Stronger opening</b><p><i>${esc(r.better_opening)}</i></p>`:""}</div>
+ ${r.text?`<div class="card"><b>Transcript</b><p>${hl(r.text,r.F.f)}</p></div>`:""}
+ <div class="row"><button class="sec" onclick="${r.quick?"mode='quick';qstart=true;resetRec();go('practice')":`pick('${r.lid}')`}">${r.quick?"Practice again":"Try again"}</button>${r.pass&&nx?`<button onclick="pick('${nx.id}')">Next lesson →</button>`:""}</div>`}
+/* ---------- Progress / Profile ---------- */
+function progress(){
+ const h=S.hist.slice(-12),X=i=>h.length>1?i*(300/(h.length-1)):150,pts=h.map((x,i)=>`${X(i)},${100-x.score}`).join(" ");
+ const L1=LV[0].ls.every(x=>(S.done[x.id]||0)>=x.min);
+ return `<h1>Progress</h1><div class="row"><div class="card stat"><b>🔥 ${S.streak}</b><span class="mu">day streak</span></div><div class="card stat"><b>⭐ ${S.xp}</b><span class="mu">XP · Lv ${lvl()}</span></div><div class="card stat"><b>${Object.keys(S.done).filter(k=>S.done[k]>=ALL.find(a=>a.id==k).min).length}/${ALL.length}</b><span class="mu">lessons passed</span></div></div>
+ <div class="card"><b>Score trend</b>${h.length?`<svg viewBox="0 0 300 110" style="width:100%;margin-top:8px"><polyline fill="none" stroke="var(--pr)" stroke-width="3" points="${pts}"/>${h.map((x,i)=>`<circle cx="${X(i)}" cy="${100-x.score}" r="4" fill="var(--pr)"/>`).join("")}</svg>`:`<p class="mu">Your chart appears after your first evaluation.</p>`}</div>
+ <div class="card"><b>Badges</b><p>${[["🎤","First speech",S.hist.length>=1],["🔥","3-day streak",S.streak>=3],["🥇","Score 90+",S.hist.some(x=>x.score>=90)],["🎥","Video speech",S.hist.some(x=>x.vid)],["🏆","Level 1 done",L1]].map(b=>`<span class="chip" style="opacity:${b[2]?1:.35}">${b[0]} ${b[1]}</span>`).join("")}</p></div>
+ <div class="card"><b>History</b>${S.hist.slice().reverse().slice(0,10).map(x=>`<div class="row" style="justify-content:space-between;padding:6px 0"><span>${esc(x.lesson)}</span><b style="flex:none">${x.score}</b></div>`).join("")||`<p class="mu">Nothing yet.</p>`}</div>`}
+function profile(){
+ return `<h1>Profile</h1><div class="card"><div class="mu">Your name</div><input value="${esc(S.name)}" oninput="S.name=this.value;save()">
+ <div class="mu" style="margin-top:10px">Feedback language</div><select onchange="S.ai=this.value;save()"><option value="en" ${S.ai=="en"?"selected":""}>English</option><option value="si" ${S.ai=="si"?"selected":""}>සිංහල (Sinhala)</option></select></div>
+ <div class="card"><b>AI connection</b><div class="mu" style="margin:6px 0 4px">Gemini API key (free at aistudio.google.com)</div><input type="password" value="${esc(S.key)}" placeholder="AIza…" oninput="S.key=this.value.trim();save()">
+ <div class="mu" style="margin:10px 0 4px">AI model</div><input value="${esc(S.model)}" oninput="S.model=this.value.trim();save()"><p class="mu">Stored only on this phone. If you see a “model not found” error, type the model name Google suggests here.</p></div>
+ <div class="card"><b>Tips</b><p class="mu">Face a window, keep your head and hands in frame, and look at the camera lens. Progress is saved on this device.</p></div>
+ <button class="sec" style="width:100%" onclick="if(confirm('Reset all progress?')){S={xp:0,streak:0,last:'',done:{},hist:[],name:'',ai:'en',sl:'en-US',key:S.key,model:S.model};save();view=null;go('learn')}">Reset progress</button>`}
+draw();
+</script></body></html>

@@ -1,0 +1,7 @@
+{
+  "appId": "com.speakup.app",
+  "appName": "SpeakUp",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "plugins": { "CapacitorHttp": { "enabled": true } }
+}
